@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth } from "../context/AuthProvider";
 import {
     Button,
     Container,
@@ -12,16 +13,18 @@ import {
     Tooltip,
     IconButton
 } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const HistoricoChamados = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const { email, cliente, projetos } = location.state || {};
+    const { user } = useAuth();
+    const email = user?.email;
+    const cliente = user?.cliente;
+    const projetos = user?.projetos;
 
     const [chamados, setChamados] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const handleNovoChamado = () => {
         navigate("/novo-chamado", {
